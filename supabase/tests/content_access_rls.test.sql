@@ -17,26 +17,29 @@ values
   ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'Active Topic', 'active-topic', true),
   ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'Inactive Topic', 'inactive-topic', false);
 
-insert into public.content_items (topic_id, title, slug, body, is_active)
+insert into public.content_items (id, topic_id, title, slug, body, is_active)
 values
   (
+    'cccccccc-cccc-cccc-cccc-ccccccccccc1',
     'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
     'Published Content',
-    'published-content',
+    'test-published-content',
     '# Published',
     true
   ),
   (
+    'cccccccc-cccc-cccc-cccc-ccccccccccc2',
     'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
     'Inactive Content',
-    'inactive-content',
+    'test-inactive-content',
     '# Inactive',
     false
   ),
   (
+    'cccccccc-cccc-cccc-cccc-ccccccccccc3',
     'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
     'Content in Inactive Topic',
-    'hidden-topic-content',
+    'test-hidden-topic-content',
     '# Hidden',
     true
   );
@@ -44,13 +47,22 @@ values
 set local role anon;
 
 select results_eq(
-  'select count(*) from public.topics',
+  $$select count(*) from public.topics
+    where id in (
+      'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+      'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+    )$$,
   array[1::bigint],
   'Visitors can read only active topics'
 );
 
 select results_eq(
-  'select count(*) from public.content_items',
+  $$select count(*) from public.content_items
+    where id in (
+      'cccccccc-cccc-cccc-cccc-ccccccccccc1',
+      'cccccccc-cccc-cccc-cccc-ccccccccccc2',
+      'cccccccc-cccc-cccc-cccc-ccccccccccc3'
+    )$$,
   array[1::bigint],
   'Visitors can read only active content in active topics'
 );
@@ -67,13 +79,18 @@ set local role authenticated;
 set local "request.jwt.claim.sub" = '22222222-2222-2222-2222-222222222222';
 
 select results_eq(
-  'select count(*) from public.topics',
+  $$select count(*) from public.topics
+    where id in (
+      'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+      'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+    )$$,
   array[1::bigint],
   'Authenticated non-administrators can read only active topics'
 );
 
 select results_eq(
-  'select count(*) from public.administrator_profiles',
+  $$select count(*) from public.administrator_profiles
+    where user_id = '11111111-1111-1111-1111-111111111111'$$,
   array[0::bigint],
   'Authenticated non-administrators cannot read administrator profiles'
 );
@@ -86,7 +103,9 @@ select throws_ok(
 );
 
 select results_eq(
-  $$update public.content_items set title = 'Changed' where slug = 'published-content' returning 1$$,
+  $$update public.content_items set title = 'Changed'
+    where slug = 'test-published-content'
+    returning 1$$,
   array[]::integer[],
   'Authenticated non-administrators cannot update content'
 );
@@ -96,19 +115,29 @@ set local role authenticated;
 set local "request.jwt.claim.sub" = '11111111-1111-1111-1111-111111111111';
 
 select results_eq(
-  'select count(*) from public.administrator_profiles',
+  $$select count(*) from public.administrator_profiles
+    where user_id = '11111111-1111-1111-1111-111111111111'$$,
   array[1::bigint],
   'Administrators can read their own administrator profile'
 );
 
 select results_eq(
-  'select count(*) from public.topics',
+  $$select count(*) from public.topics
+    where id in (
+      'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+      'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+    )$$,
   array[2::bigint],
   'Administrators can read active and inactive topics'
 );
 
 select results_eq(
-  'select count(*) from public.content_items',
+  $$select count(*) from public.content_items
+    where id in (
+      'cccccccc-cccc-cccc-cccc-ccccccccccc1',
+      'cccccccc-cccc-cccc-cccc-ccccccccccc2',
+      'cccccccc-cccc-cccc-cccc-ccccccccccc3'
+    )$$,
   array[3::bigint],
   'Administrators can read all content'
 );
@@ -119,12 +148,13 @@ select lives_ok(
 );
 
 select lives_ok(
-  $$update public.content_items set title = 'Updated Content' where slug = 'published-content'$$,
+  $$update public.content_items set title = 'Updated Content'
+    where slug = 'test-published-content'$$,
   'Administrators can update content'
 );
 
 select throws_ok(
-  $$delete from public.content_items where slug = 'published-content'$$,
+  $$delete from public.content_items where slug = 'test-published-content'$$,
   '42501',
   null,
   'Administrators cannot delete content'

@@ -65,3 +65,21 @@ supabase test db
 
 The pgTAP suite at `tests/content_access_rls.test.sql` seeds isolated test identities and rolls its
 changes back after each run. It never uses production administrator identities.
+
+## Local Visual Seed Data
+
+`seed.sql` is local development data only; it is not a migration and must not be applied to the
+hosted project. It provides active and inactive topics plus published and unpublished Markdown
+content for visual development and authorization checks.
+
+Reset the local database with the visual seed data:
+
+```bash
+supabase db reset --local
+```
+
+Reset without it:
+
+```bash
+supabase db reset --local --no-seed
+```

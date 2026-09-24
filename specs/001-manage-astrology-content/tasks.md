@@ -64,15 +64,15 @@ content and management mutations.
 and content paths signed out; active content appears, inactive content never appears, and an empty
 topic shows a clear empty state.
 
-- [ ] T018 [P] [US1] Write repository tests for active topic and active-content queries, including empty and failed loads, in `tests/unit/useContentRepository.spec.ts`
-- [ ] T019 [P] [US1] Write component tests for loading, empty, error, topic-list, sanitized Markdown rendering, and content-summary states in `tests/component/publicContent.spec.ts`
-- [ ] T020 [P] [US1] Write signed-out end-to-end coverage for active browsing, inactive direct links, an empty topic, and Markdown rendering in `tests/e2e/public-content.spec.ts`
-- [ ] T021 [P] [US1] Implement the active-topic list and active-content-by-topic queries in `app/composables/usePublicContent.ts`
-- [ ] T022 [P] [US1] Implement reusable topic-list, content-summary, and sanitized Markdown content-detail components in `app/components/content/TopicList.vue`, `app/components/content/ContentSummary.vue`, and `app/components/content/ContentDetail.vue`
-- [ ] T023 [US1] Implement the public topic index and active-topic listing in `app/pages/index.vue`
-- [ ] T024 [US1] Implement the active topic detail route, including clear empty and unavailable states, in `app/pages/topics/[slug]/index.vue`
-- [ ] T025 [US1] Implement the active content direct-link route with sanitized Markdown rendering and no inactive-content disclosure in `app/pages/topics/[topicSlug]/[contentSlug].vue`
-- [ ] T026 [US1] Run the US1 unit, component, and end-to-end tests in `tests/unit/useContentRepository.spec.ts`, `tests/component/publicContent.spec.ts`, and `tests/e2e/public-content.spec.ts`
+- [x] T018 [P] [US1] Write repository tests for active topic and active-content queries, including empty and failed loads, in `tests/unit/useContentRepository.spec.ts`
+- [x] T019 [P] [US1] Write component tests for loading, empty, error, topic-list, sanitized Markdown rendering, and content-summary states in `tests/component/publicContent.spec.ts`
+- [x] T020 [P] [US1] Write signed-out end-to-end coverage for active browsing, inactive direct links, an empty topic, and Markdown rendering in `tests/e2e/public-content.spec.ts`
+- [x] T021 [P] [US1] Implement the active-topic list and active-content-by-topic queries in `app/composables/usePublicContent.ts`
+- [x] T022 [P] [US1] Implement reusable topic-list, content-summary, and sanitized Markdown content-detail components in `app/components/content/TopicList.vue`, `app/components/content/ContentSummary.vue`, and `app/components/content/ContentDetail.vue`
+- [x] T023 [US1] Implement the public topic index and active-topic listing in `app/pages/index.vue`
+- [x] T024 [US1] Implement the active topic detail route, including clear empty and unavailable states, in `app/pages/topics/[slug]/index.vue`
+- [x] T025 [US1] Implement the active content direct-link route with sanitized Markdown rendering and no inactive-content disclosure in `app/pages/topics/[topicSlug]/[contentSlug].vue`
+- [x] T026 [US1] Run the US1 unit, component, and end-to-end tests in `tests/unit/useContentRepository.spec.ts`, `tests/component/publicContent.spec.ts`, and `tests/e2e/public-content.spec.ts`
 
 **Checkpoint**: Visitors can independently use the public content experience, and inactive records
 are not exposed by the UI or direct paths.
@@ -87,12 +87,12 @@ expired-session, and non-administrator users are denied.
 **Independent Test**: Request an administration route signed out, sign in with invalid,
 non-administrator, and administrator credentials, then sign out and confirm management access ends.
 
-- [ ] T027 [P] [US2] Write unit tests for administrator-session and allow-list state resolution in `tests/unit/useAdministratorSession.spec.ts`
+- [x] T027 [P] [US2] Write unit tests for administrator-session and allow-list state resolution in `tests/unit/useAdministratorSession.spec.ts`
 - [ ] T028 [P] [US2] Write end-to-end coverage for signed-out denial, invalid sign-in, non-administrator denial, administrator access, session expiry, and sign-out in `tests/e2e/administrator-auth.spec.ts`
-- [ ] T029 [P] [US2] Implement administrator identity, allow-list lookup, sign-in, and sign-out behavior with explicit errors in `app/composables/useAdministratorSession.ts`
-- [ ] T030 [P] [US2] Implement the sign-in form with actionable credential and session errors in `app/components/admin/AdminSignInForm.vue`
-- [ ] T031 [US2] Implement route middleware that redirects signed-out, expired, and non-administrator users without exposing management data in `app/middleware/admin.ts`
-- [ ] T032 [US2] Implement the administrator sign-in page and protected administration shell in `app/pages/admin/index.vue` and `app/layouts/admin.vue`
+- [x] T029 [P] [US2] Implement administrator identity, allow-list lookup, sign-in, and sign-out behavior with explicit errors in `app/composables/useAdministratorSession.ts`
+- [x] T030 [P] [US2] Implement the sign-in form with actionable credential and session errors in `app/components/admin/AdminSignInForm.vue`
+- [x] T031 [US2] Implement route middleware that redirects signed-out, expired, and non-administrator users without exposing management data in `app/middleware/admin.ts`
+- [x] T032 [US2] Implement the administrator sign-in page and protected administration shell in `app/pages/admin/index.vue` and `app/layouts/admin.vue`
 - [ ] T033 [US2] Run the US2 unit and end-to-end tests in `tests/unit/useAdministratorSession.spec.ts` and `tests/e2e/administrator-auth.spec.ts`
 
 **Checkpoint**: The administrator boundary works independently, and direct protected-route access
@@ -133,6 +133,7 @@ stories.
 - [ ] T045 [P] Add the expected static artifact and repository-path deployment assertions in `tests/integration/github-pages-build.spec.ts`
 - [ ] T046 Run formatting, linting, type checking, unit tests, component tests, end-to-end tests, and database-policy tests using `package.json` and `supabase/tests/content_access_rls.test.sql`
 - [ ] T047 Build with the GitHub Pages preset, deploy through `.github/workflows/deploy-pages.yml`, and execute all scenarios in `specs/001-manage-astrology-content/quickstart.md`
+- [x] T048 [P] Add local-only visual seed topics and Markdown content, with a documented no-seed reset command, in `supabase/seed.sql` and `supabase/README.md`
 
 ---
 

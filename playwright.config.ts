@@ -18,6 +18,13 @@ export default defineConfig({
   },
   webServer: {
     command: 'npm run dev',
+    env: {
+      NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
+        process.env.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+        'test-publishable-key',
+      NUXT_PUBLIC_SUPABASE_URL:
+        process.env.NUXT_PUBLIC_SUPABASE_URL ?? 'http://supabase.test'
+    },
     reuseExistingServer: !process.env.CI,
     url: 'http://localhost:3000/astro/'
   },

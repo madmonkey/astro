@@ -15,9 +15,8 @@ function failure(message: string): RepositoryResult<never> {
 }
 
 export function useContentRepository() {
-  const supabase = useSupabase()
-
   async function getActiveTopics(): Promise<RepositoryResult<Topic[]>> {
+    const supabase = useSupabase()
     const { data, error } = await supabase
       .from('topics')
       .select('id, name, slug, is_active, created_at, updated_at')
@@ -33,6 +32,7 @@ export function useContentRepository() {
   async function getActiveTopicBySlug(
     slug: string
   ): Promise<RepositoryResult<Topic>> {
+    const supabase = useSupabase()
     const { data, error } = await supabase
       .from('topics')
       .select('id, name, slug, is_active, created_at, updated_at')
@@ -53,6 +53,7 @@ export function useContentRepository() {
   async function getActiveContentByTopic(
     topicId: string
   ): Promise<RepositoryResult<ContentItem[]>> {
+    const supabase = useSupabase()
     const { data, error } = await supabase
       .from('content_items')
       .select(
@@ -71,6 +72,7 @@ export function useContentRepository() {
   async function getActiveContentBySlug(
     slug: string
   ): Promise<RepositoryResult<ContentItem>> {
+    const supabase = useSupabase()
     const { data, error } = await supabase
       .from('content_items')
       .select(
