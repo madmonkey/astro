@@ -68,6 +68,18 @@ npm run build
 Run browser tests against a local Supabase stack configured with public runtime values. The policy
 suite verifies RLS independently of the user interface.
 
+To run the administrator browser workflow, provide a local allow-listed administrator only in the
+current shell:
+
+```powershell
+$env:E2E_ADMIN_EMAIL = '<local-administrator-email>'
+$env:E2E_ADMIN_PASSWORD = '<local-administrator-password>'
+npm run test:e2e -- tests/e2e/admin-content-management.spec.ts
+```
+
+The administrator browser test is skipped when those variables are absent and creates local-only
+records; reset the local database afterward if desired.
+
 ## Hosted Supabase bootstrap
 
 1. Apply `supabase/migrations/0001_initial_schema.sql` and
@@ -93,5 +105,23 @@ In repository **Settings > Pages**, select **GitHub Actions** as the deployment 
 output is public even when the source repository is private; never publish non-public content,
 credentials, or service-role keys.
 
-The deployment workflow builds with `NUXT_APP_BASE_URL=/astro/`. Change that setting only when
-deploying to a custom domain or different repository path.
+The deployment workflow defaults `NUXT_APP_BASE_URL` to `/astro/`. Set the optional
+`NUXT_APP_BASE_URL` repository variable to `/` before deploying to a root custom domain.
+
+### Custom domain
+
+When a domain is selected:
+
+1. In **Settings > Pages**, enter the domain under **Custom domain** and enable HTTPS after DNS
+   verification completes.
+2. Create the DNS record GitHub requests: use a `CNAME` for a subdomain or GitHub's documented
+   apex-domain records for a root domain. Do not point the domain directly at Supabase.
+3. Set the repository variable `NUXT_APP_BASE_URL` to `/` for a root custom-domain deployment.
+   Keep `/astro/` if the site intentionally remains under that repository path.
+4. Update Supabase **Authentication > URL Configuration** with the custom-domain site URL and
+   matching redirect URL, including the selected base path.
+5. Push `main`, verify the Pages workflow, open the custom-domain public site, and verify the
+   administrator sign-in redirect flow.
+
+Do not add a `CNAME` file until the actual domain is chosen; its value must be the exact verified
+hostname.

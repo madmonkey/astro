@@ -110,13 +110,13 @@ edit both, activate and deactivate them, and confirm each public visibility tran
 
 - [x] T034 [P] [US3] Write repository tests for authorized create/update/activation requests and duplicate or blank validation failures in `tests/unit/useAdminContentRepository.spec.ts`
 - [x] T035 [P] [US3] Write component tests that retain entered values and show field-level errors for invalid topic and Markdown content submissions in `tests/component/adminContentForms.spec.ts`
-- [ ] T036 [P] [US3] Write end-to-end coverage for creating, editing, activating, and deactivating a topic and Markdown content item in `tests/e2e/admin-content-management.spec.ts`
+- [x] T036 [P] [US3] Write end-to-end coverage for creating, editing, activating, and deactivating a topic and Markdown content item in `tests/e2e/admin-content-management.spec.ts`
 - [x] T037 [P] [US3] Implement authorized topic/content CRUD and active-state mutations with explicit authorization and validation errors in `app/composables/useAdminContentRepository.ts`
 - [x] T038 [P] [US3] Implement the topic editor with the quoted constraints “Required; trimmed, non-empty, unique display name” and “Required; unique URL-safe identifier” in `app/components/admin/TopicForm.vue`
 - [x] T039 [P] [US3] Implement the Markdown content editor with the quoted constraints “Required; trimmed and non-empty,” “Required; non-empty Markdown source content,” a required topic, and a unique URL-safe slug in `app/components/admin/ContentForm.vue`
 - [x] T040 [US3] Implement topic and content management lists, Markdown previews, editing routes, and activate/deactivate confirmations in `app/pages/admin/topics/index.vue`, `app/pages/admin/topics/[id].vue`, `app/pages/admin/content/index.vue`, and `app/pages/admin/content/[id].vue`
 - [x] T041 [US3] Integrate expired-session handling into management submissions and verify no update is silently applied in `app/composables/useAdminContentRepository.ts`
-- [ ] T042 [US3] Run the US3 unit, component, and end-to-end tests in `tests/unit/useAdminContentRepository.spec.ts`, `tests/component/adminContentForms.spec.ts`, and `tests/e2e/admin-content-management.spec.ts`
+- [x] T042 [US3] Run the US3 unit, component, and end-to-end tests in `tests/unit/useAdminContentRepository.spec.ts`, `tests/component/adminContentForms.spec.ts`, and `tests/e2e/admin-content-management.spec.ts`
 
 **Checkpoint**: An authorized administrator can manage the full content lifecycle, and visibility
 follows the data-boundary rules.
@@ -130,7 +130,7 @@ stories.
 
 - [x] T043 [P] Add accessible labels, focus management, semantic landmarks, and responsive styles across `app/components/` and `app/assets/css/main.css`
 - [x] T044 [P] Add deployment, Pages configuration, public-data warning, Markdown authoring, and administrator bootstrap documentation in `README.md`
-- [ ] T045 [P] Add the expected static artifact and repository-path deployment assertions in `tests/integration/github-pages-build.spec.ts`
+- [x] T045 [P] Add the expected static artifact and repository-path deployment assertions in `tests/integration/github-pages-build.spec.ts`
 - [x] T046 Run formatting, linting, type checking, unit tests, component tests, end-to-end tests, and database-policy tests using `package.json` and `supabase/tests/content_access_rls.test.sql`
 - [ ] T047 Build with the GitHub Pages preset, deploy through `.github/workflows/deploy-pages.yml`, and execute all scenarios in `specs/001-manage-astrology-content/quickstart.md`
 - [x] T048 [P] Add local-only visual seed topics and Markdown content, with a documented no-seed reset command, in `supabase/seed.sql` and `supabase/README.md`

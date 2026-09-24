@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Node.js 20 LTS or later and npm.
+- Node.js 22.19.0 or later and npm.
 - A Supabase project configured with two administrator identities and the schema/policies in
   [data-model.md](data-model.md).
 - A GitHub repository whose Pages settings permit GitHub Actions deployments. GitHub Pages output
@@ -50,3 +50,11 @@
 4. Push to `main`; verify the Pages workflow succeeds and open the published site at its
    repository path.
 5. Repeat the public and administration smoke scenarios against the deployed site.
+
+## Map a Custom Domain
+
+After a domain is selected, configure it in GitHub **Settings > Pages**, create the DNS record
+requested by GitHub, and enable HTTPS. Set the `NUXT_APP_BASE_URL` repository variable to `/` for
+a root custom-domain deployment, then add the exact custom-domain site and redirect URLs in
+Supabase Auth configuration. Push `main` and repeat the public and administrator smoke scenarios
+through the custom domain.

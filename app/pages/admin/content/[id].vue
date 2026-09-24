@@ -109,7 +109,7 @@ onMounted(loadContent)
         :errors="saveFieldErrors"
         :initial-value="initialValue"
         :topics="topics"
-        @submit="saveContent"
+        @save="saveContent"
       />
       <section class="admin-panel" aria-labelledby="markdown-preview-heading">
         <h2 id="markdown-preview-heading">Markdown preview</h2>

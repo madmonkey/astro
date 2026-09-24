@@ -15,6 +15,24 @@ const topics = [
 ]
 
 describe('administrator content forms', () => {
+  it('emits normalized topic values on a valid save', async () => {
+    const wrapper = mount(TopicForm)
+
+    await wrapper.get('#topic-name').setValue(' Moon Phases ')
+    await wrapper.get('#topic-slug').setValue(' MOON-PHASES ')
+    await wrapper.get('form').trigger('submit')
+
+    expect(wrapper.emitted('save')).toEqual([
+      [
+        {
+          is_active: false,
+          name: 'Moon Phases',
+          slug: 'moon-phases'
+        }
+      ]
+    ])
+  })
+
   it('retains invalid topic values and presents field-level errors', async () => {
     const wrapper = mount(TopicForm)
 
@@ -32,7 +50,7 @@ describe('administrator content forms', () => {
     expect((wrapper.get('#topic-slug').element as HTMLInputElement).value).toBe(
       'Not a slug'
     )
-    expect(wrapper.emitted('submit')).toBeUndefined()
+    expect(wrapper.emitted('save')).toBeUndefined()
   })
 
   it('retains invalid Markdown content values and presents field-level errors', async () => {
@@ -56,7 +74,7 @@ describe('administrator content forms', () => {
     expect(
       (wrapper.get('#content-body').element as HTMLTextAreaElement).value
     ).toBe('   ')
-    expect(wrapper.emitted('submit')).toBeUndefined()
+    expect(wrapper.emitted('save')).toBeUndefined()
   })
 
   it('shows a repository duplicate error beside the topic slug field', () => {

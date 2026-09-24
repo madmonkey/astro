@@ -9,7 +9,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  submit: [value: TopicFormInput]
+  save: [value: TopicFormInput]
 }>()
 
 const values = reactive<TopicFormInput>({
@@ -24,12 +24,23 @@ const visibleErrors = computed(() => ({
   ...fieldErrors.value
 }))
 
-function submit() {
-  const validation = validateTopicInput(values)
+function submit(event: SubmitEvent) {
+  const form = event.currentTarget
+
+  if (!(form instanceof HTMLFormElement)) {
+    return
+  }
+
+  const formData = new FormData(form)
+  const validation = validateTopicInput({
+    is_active: formData.has('is_active'),
+    name: String(formData.get('name') ?? ''),
+    slug: String(formData.get('slug') ?? '')
+  })
   fieldErrors.value = validation.errors
 
   if (Object.keys(validation.errors).length === 0) {
-    emit('submit', validation.value)
+    emit('save', validation.value)
   }
 }
 </script>
@@ -69,7 +80,7 @@ function submit() {
     </div>
 
     <label class="checkbox-field">
-      <input v-model="values.is_active" type="checkbox" />
+      <input v-model="values.is_active" name="is_active" type="checkbox" />
       Make this topic visible to visitors
     </label>
 

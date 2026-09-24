@@ -32,7 +32,7 @@ jobs:
 
       - name: Build static site
         env:
-          NUXT_APP_BASE_URL: /astro/
+          NUXT_APP_BASE_URL: ${{ vars.NUXT_APP_BASE_URL || '/astro/' }}
           NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
           NUXT_PUBLIC_SUPABASE_URL: ${{ vars.NUXT_PUBLIC_SUPABASE_URL }}
         run: npm run build

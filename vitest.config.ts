@@ -18,7 +18,7 @@ export default defineConfig({
       reporter: ['text', 'html']
     },
     environment: 'jsdom',
-    include: ['tests/{unit,component}/**/*.{test,spec}.ts'],
+    include: ['tests/**/*.{test,spec}.ts'],
     passWithNoTests: true
   }
 })

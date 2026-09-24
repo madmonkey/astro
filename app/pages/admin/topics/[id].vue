@@ -93,7 +93,7 @@ onMounted(loadTopic)
       <AdminTopicForm
         :errors="saveFieldErrors"
         :initial-value="initialValue"
-        @submit="saveTopic"
+        @save="saveTopic"
       />
     </template>
   </section>

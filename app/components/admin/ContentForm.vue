@@ -10,7 +10,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  submit: [value: ContentItemFormInput]
+  save: [value: ContentItemFormInput]
 }>()
 
 const values = reactive<ContentItemFormInput>({
@@ -27,12 +27,25 @@ const visibleErrors = computed(() => ({
   ...fieldErrors.value
 }))
 
-function submit() {
-  const validation = validateContentItemInput(values)
+function submit(event: SubmitEvent) {
+  const form = event.currentTarget
+
+  if (!(form instanceof HTMLFormElement)) {
+    return
+  }
+
+  const formData = new FormData(form)
+  const validation = validateContentItemInput({
+    body: String(formData.get('body') ?? ''),
+    is_active: formData.has('is_active'),
+    slug: String(formData.get('slug') ?? ''),
+    title: String(formData.get('title') ?? ''),
+    topic_id: String(formData.get('topic') ?? '')
+  })
   fieldErrors.value = validation.errors
 
   if (Object.keys(validation.errors).length === 0) {
-    emit('submit', validation.value)
+    emit('save', validation.value)
   }
 }
 </script>
@@ -124,7 +137,7 @@ function submit() {
     </div>
 
     <label class="checkbox-field">
-      <input v-model="values.is_active" type="checkbox" />
+      <input v-model="values.is_active" name="is_active" type="checkbox" />
       Make this content visible to visitors
     </label>
 

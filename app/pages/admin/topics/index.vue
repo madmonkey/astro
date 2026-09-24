@@ -89,7 +89,7 @@ onMounted(loadTopics)
 
     <section class="admin-panel" aria-labelledby="new-topic-heading">
       <h2 id="new-topic-heading">Create topic</h2>
-      <AdminTopicForm :errors="saveFieldErrors" @submit="saveTopic" />
+      <AdminTopicForm :errors="saveFieldErrors" @save="saveTopic" />
     </section>
 
     <ContentState

@@ -110,7 +110,7 @@ onMounted(loadContent)
       <AdminContentForm
         :errors="saveFieldErrors"
         :topics="topics"
-        @submit="saveContent"
+        @save="saveContent"
       />
     </section>
 
