@@ -52,9 +52,13 @@ onMounted(loadSession)
     />
     <template v-else-if="session?.status === 'administrator'">
       <p class="admin-introduction">
-        Your administrator session is active. Topic and content editing will
-        appear here.
+        Your administrator session is active. Manage published topics and
+        Markdown content.
       </p>
+      <nav class="admin-navigation" aria-label="Content management">
+        <NuxtLink to="/admin/topics">Manage topics</NuxtLink>
+        <NuxtLink to="/admin/content">Manage content</NuxtLink>
+      </nav>
       <button class="admin-sign-out" type="button" @click="endSession">
         Sign out
       </button>

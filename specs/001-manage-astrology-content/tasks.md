@@ -108,14 +108,14 @@ record's active state, and immediately verify the public visibility result.
 **Independent Test**: Sign in as the administrator; create a unique topic and inactive content,
 edit both, activate and deactivate them, and confirm each public visibility transition.
 
-- [ ] T034 [P] [US3] Write repository tests for authorized create/update/activation requests and duplicate or blank validation failures in `tests/unit/useAdminContentRepository.spec.ts`
-- [ ] T035 [P] [US3] Write component tests that retain entered values and show field-level errors for invalid topic and Markdown content submissions in `tests/component/adminContentForms.spec.ts`
+- [x] T034 [P] [US3] Write repository tests for authorized create/update/activation requests and duplicate or blank validation failures in `tests/unit/useAdminContentRepository.spec.ts`
+- [x] T035 [P] [US3] Write component tests that retain entered values and show field-level errors for invalid topic and Markdown content submissions in `tests/component/adminContentForms.spec.ts`
 - [ ] T036 [P] [US3] Write end-to-end coverage for creating, editing, activating, and deactivating a topic and Markdown content item in `tests/e2e/admin-content-management.spec.ts`
-- [ ] T037 [P] [US3] Implement authorized topic/content CRUD and active-state mutations with explicit authorization and validation errors in `app/composables/useAdminContentRepository.ts`
-- [ ] T038 [P] [US3] Implement the topic editor with the quoted constraints “Required; trimmed, non-empty, unique display name” and “Required; unique URL-safe identifier” in `app/components/admin/TopicForm.vue`
-- [ ] T039 [P] [US3] Implement the Markdown content editor with the quoted constraints “Required; trimmed and non-empty,” “Required; non-empty Markdown source content,” a required topic, and a unique URL-safe slug in `app/components/admin/ContentForm.vue`
-- [ ] T040 [US3] Implement topic and content management lists, Markdown previews, editing routes, and activate/deactivate confirmations in `app/pages/admin/topics/index.vue`, `app/pages/admin/topics/[id].vue`, `app/pages/admin/content/index.vue`, and `app/pages/admin/content/[id].vue`
-- [ ] T041 [US3] Integrate expired-session handling into management submissions and verify no update is silently applied in `app/composables/useAdminContentRepository.ts`
+- [x] T037 [P] [US3] Implement authorized topic/content CRUD and active-state mutations with explicit authorization and validation errors in `app/composables/useAdminContentRepository.ts`
+- [x] T038 [P] [US3] Implement the topic editor with the quoted constraints “Required; trimmed, non-empty, unique display name” and “Required; unique URL-safe identifier” in `app/components/admin/TopicForm.vue`
+- [x] T039 [P] [US3] Implement the Markdown content editor with the quoted constraints “Required; trimmed and non-empty,” “Required; non-empty Markdown source content,” a required topic, and a unique URL-safe slug in `app/components/admin/ContentForm.vue`
+- [x] T040 [US3] Implement topic and content management lists, Markdown previews, editing routes, and activate/deactivate confirmations in `app/pages/admin/topics/index.vue`, `app/pages/admin/topics/[id].vue`, `app/pages/admin/content/index.vue`, and `app/pages/admin/content/[id].vue`
+- [x] T041 [US3] Integrate expired-session handling into management submissions and verify no update is silently applied in `app/composables/useAdminContentRepository.ts`
 - [ ] T042 [US3] Run the US3 unit, component, and end-to-end tests in `tests/unit/useAdminContentRepository.spec.ts`, `tests/component/adminContentForms.spec.ts`, and `tests/e2e/admin-content-management.spec.ts`
 
 **Checkpoint**: An authorized administrator can manage the full content lifecycle, and visibility
