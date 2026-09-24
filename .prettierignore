@@ -1,0 +1,8 @@
+.nuxt
+.output
+.specify
+.github
+node_modules
+playwright-report
+specs
+test-results
