@@ -8,9 +8,11 @@ import type { ContentItem } from '~/types/content'
 
 const route = useRoute()
 const { getContent } = usePublicContent()
+const { getAdministratorSession } = useAdministratorSession()
 const content = ref<ContentItem | null>(null)
 const errorMessage = ref<string | null>(null)
 const isLoading = ref(true)
+const isAdministrator = ref(false)
 
 async function loadContent() {
   content.value = null
@@ -32,6 +34,10 @@ async function loadContent() {
 }
 
 onMounted(loadContent)
+onMounted(async () => {
+  const session = await getAdministratorSession()
+  isAdministrator.value = session.status === 'administrator'
+})
 </script>
 
 <template>
@@ -46,6 +52,13 @@ onMounted(loadContent)
       :message="errorMessage"
       @retry="loadContent"
     />
-    <ContentDetail v-else-if="content" :content="content" />
+    <template v-else-if="content">
+      <div v-if="isAdministrator" class="public-admin-actions">
+        <UButton :to="`/admin/content/${content.id}`" size="sm" variant="soft">
+          Edit this article
+        </UButton>
+      </div>
+      <ContentDetail :content="content" />
+    </template>
   </section>
 </template>

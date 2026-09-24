@@ -15,6 +15,7 @@ export function renderMarkdown(markdown: string): string {
     allowedAttributes: {
       a: ['href', 'title'],
       code: ['class'],
+      img: ['alt', 'height', 'src', 'title', 'width'],
       ol: ['start']
     },
     allowedTags: [
@@ -31,6 +32,7 @@ export function renderMarkdown(markdown: string): string {
       'h5',
       'h6',
       'hr',
+      'img',
       'li',
       'ol',
       'p',
@@ -39,6 +41,9 @@ export function renderMarkdown(markdown: string): string {
       'ul'
     ],
     allowedSchemes: ['http', 'https', 'mailto'],
+    allowedSchemesByTag: {
+      img: ['http', 'https']
+    },
     disallowedTagsMode: 'discard'
   })
 }

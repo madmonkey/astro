@@ -119,4 +119,26 @@ describe('public content states', () => {
     expect(wrapper.html()).not.toContain('<script')
     expect(wrapper.html()).not.toContain('window.alert')
   })
+
+  it('renders safe Markdown images and excludes unsafe image sources', () => {
+    const wrapper = mount(ContentDetail, {
+      props: {
+        content: {
+          ...content,
+          body: [
+            '![Moon](https://images.example.com/moon.jpg "Moon phase")',
+            '![Unsafe](javascript:window.alert("unsafe"))'
+          ].join('\n\n')
+        }
+      }
+    })
+
+    expect(wrapper.get('.markdown-content img').attributes()).toMatchObject({
+      alt: 'Moon',
+      src: 'https://images.example.com/moon.jpg',
+      title: 'Moon phase'
+    })
+    expect(wrapper.html()).not.toContain('javascript:')
+    expect(wrapper.html()).not.toContain('window.alert')
+  })
 })

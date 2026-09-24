@@ -30,24 +30,39 @@ onMounted(loadTopics)
 
 <template>
   <section aria-labelledby="topics-heading">
-    <p class="eyebrow">Explore astrology</p>
-    <h1 id="topics-heading" class="page-heading">Current topics</h1>
+    <div class="landing-hero">
+      <p class="eyebrow">A quieter way to explore astrology</p>
+      <h1 id="topics-heading" class="landing-heading">
+        Find a rhythm that feels like your own.
+      </h1>
+      <p class="landing-description">
+        Thoughtful guides for noticing cycles, reflecting on your sky, and
+        making room for what matters.
+      </p>
+      <a class="landing-action" href="#topics">Explore current topics</a>
+    </div>
 
-    <ContentState
-      v-if="isLoading"
-      description="Fetching the latest astrology content."
-      title="Loading topics"
-    />
-    <ContentError
-      v-else-if="errorMessage"
-      :message="errorMessage"
-      @retry="loadTopics"
-    />
-    <ContentState
-      v-else-if="topics.length === 0"
-      description="Check back soon for new guidance."
-      title="No published topics yet"
-    />
-    <TopicList v-else :topics="topics" />
+    <section id="topics" aria-labelledby="current-topics-heading">
+      <p class="eyebrow">Explore the library</p>
+      <h2 id="current-topics-heading" class="section-heading">
+        Current topics
+      </h2>
+      <ContentState
+        v-if="isLoading"
+        description="Fetching the latest astrology content."
+        title="Loading topics"
+      />
+      <ContentError
+        v-else-if="errorMessage"
+        :message="errorMessage"
+        @retry="loadTopics"
+      />
+      <ContentState
+        v-else-if="topics.length === 0"
+        description="Check back soon for new guidance."
+        title="No published topics yet"
+      />
+      <TopicList v-else :topics="topics" />
+    </section>
   </section>
 </template>
