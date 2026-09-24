@@ -42,10 +42,10 @@ reusable error handling. No user-story implementation starts until this phase is
 - [x] T007 Create the initial Supabase migration for `administrator_profiles`, `topics`, and `content_items` in `supabase/migrations/0001_initial_schema.sql`; enforce the quoted constraints: Topic `name` is “Required; trimmed, non-empty, unique display name,” Topic `slug` is “Required; unique URL-safe identifier,” Content `title` is “Required; trimmed and non-empty,” Content `slug` is “Required; unique URL-safe identifier,” Content `body` is “Required; non-empty Markdown source content,” and each `is_active` “defaults to inactive”
 - [x] T008 Create row-level security policies and least-privilege grants in `supabase/migrations/0002_access_policies.sql`: visitors read active topics only; visitors read content only when both item and topic are active; only allow-listed administrators can read all records or create/update topics and content; no client role can delete records
 - [x] T009 [P] Write allow/deny database-policy tests for visitor, authenticated non-administrator, and administrator access in `supabase/tests/content_access_rls.test.sql`
-- [ ] T010 [P] Define shared Topic, ContentItem, AdministratorProfile, and form-input types in `app/types/content.ts`
-- [ ] T011 [P] Create the browser Supabase client from public runtime configuration in `app/composables/useSupabase.ts`
-- [ ] T012 [P] Create shared data-load, empty-state, and retryable-error components in `app/components/content/ContentState.vue` and `app/components/content/ContentError.vue`
-- [ ] T013 Implement topic/content input normalization, required-field validation, and URL-safe slug validation in `app/utils/contentValidation.ts`
+- [x] T010 [P] Define shared Topic, ContentItem, AdministratorProfile, and form-input types in `app/types/content.ts`
+- [x] T011 [P] Create the browser Supabase client from public runtime configuration in `app/composables/useSupabase.ts`
+- [x] T012 [P] Create shared data-load, empty-state, and retryable-error components in `app/components/content/ContentState.vue` and `app/components/content/ContentError.vue`
+- [x] T013 Implement topic/content input normalization, required-field validation, and URL-safe slug validation in `app/utils/contentValidation.ts`
 - [ ] T014 Create a shared data-access composable with explicit error results in `app/composables/useContentRepository.ts`
 - [ ] T015 [P] Implement Markdown-to-sanitized-HTML rendering with raw HTML disabled in `app/utils/renderMarkdown.ts`
 - [ ] T016 Configure Supabase redirect URLs and the two-account administrator allow-list outside the repository; configure session lifetime and inactivity timeout when the plan supports them, otherwise record the Free-plan limitation in `supabase/README.md`
