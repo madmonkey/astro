@@ -33,17 +33,17 @@ export function useAdministratorSession() {
 
   async function getAdministratorSession(): Promise<AdministratorSession> {
     const supabase = useSupabase()
-    const { data, error } = await supabase.auth.getSession()
+    const { data, error } = await supabase.auth.getUser()
 
     if (error) {
       return { status: 'error', message: sessionVerificationError }
     }
 
-    if (!data.session) {
+    if (!data.user) {
       return { status: 'signed-out' }
     }
 
-    return resolveAdministrator(data.session.user.id)
+    return resolveAdministrator(data.user.id)
   }
 
   async function signIn(

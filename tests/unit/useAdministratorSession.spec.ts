@@ -32,8 +32,8 @@ function mockSupabase({
   })
 
   const auth = {
-    getSession: vi.fn().mockResolvedValue({
-      data: { session },
+    getUser: vi.fn().mockResolvedValue({
+      data: { user: session?.user ?? null },
       error: sessionError
     }),
     signInWithPassword: vi.fn().mockResolvedValue({
