@@ -25,7 +25,7 @@ the shared foundation is complete.
 
 **Purpose**: Initialize the Nuxt project, developer tools, and static deployment configuration.
 
-- [ ] T001 Initialize the Nuxt 4.5.2 TypeScript project and npm scripts in `package.json`
+- [x] T001 Initialize the Nuxt 4.5.2 TypeScript project and npm scripts in `package.json`
 - [ ] T002 [P] Configure Nuxt static output, `/astro/` base URL, and public runtime variables in `nuxt.config.ts`
 - [ ] T003 [P] Configure TypeScript, ESLint, Prettier, Vitest, and Playwright in `tsconfig.json`, `eslint.config.mjs`, `.prettierrc`, `vitest.config.ts`, and `playwright.config.ts`
 - [ ] T004 [P] Add Supabase URL and publishable-key placeholders only, plus an environment template, in `.env.example` and `.gitignore`
