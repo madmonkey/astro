@@ -6,7 +6,14 @@ export default defineNuxtConfig({
   app: {
     baseURL: process.env.NUXT_APP_BASE_URL ?? '/astro/'
   },
-  modules: ['@nuxt/eslint'],
+  modules: ['@nuxt/eslint', '@nuxt/ui'],
+  fonts: false,
+  ui: {
+    colorMode: false,
+    theme: {
+      colors: ['primary', 'error', 'success', 'warning']
+    }
+  },
   nitro: {
     preset: 'github_pages'
   },

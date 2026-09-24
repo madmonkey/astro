@@ -6,6 +6,7 @@ Apply the migration files in lexical order:
 
 1. `migrations/0001_initial_schema.sql`
 2. `migrations/0002_access_policies.sql`
+3. `migrations/0003_administrator_deletion.sql`
 
 After both migrations succeed, allow-list each intended administrator by inserting their Supabase
 Auth user ID into `public.administrator_profiles`. Do not add user IDs to migration files because
@@ -25,6 +26,13 @@ from public.administrator_profiles;
 ```
 
 The production project is expected to return `2`.
+
+## Administrator Deletion
+
+Administrators can delete individual content items. Deleting a topic permanently deletes every
+content item assigned to it. The application requires a confirmation before either action, and the
+database restricts both operations to allow-listed administrators. This is destructive and cannot
+be undone.
 
 ## Auth URL Configuration
 

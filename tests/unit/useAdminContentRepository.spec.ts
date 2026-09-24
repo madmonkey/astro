@@ -33,6 +33,7 @@ function mockSupabase({
 }) {
   const query = {
     eq: vi.fn(),
+    delete: vi.fn(),
     insert: vi.fn(),
     select: vi.fn(),
     single: vi.fn(),
@@ -40,6 +41,7 @@ function mockSupabase({
   }
 
   query.insert.mockReturnValue(query)
+  query.delete.mockReturnValue(query)
   query.update.mockReturnValue(query)
   query.eq.mockReturnValue(query)
   query.select.mockReturnValue(query)
@@ -183,5 +185,16 @@ describe('useAdminContentRepository', () => {
     })
 
     expect(from).not.toHaveBeenCalled()
+  })
+
+  it('deletes a content item only after administrator authorization', async () => {
+    const { query } = mockSupabase({ data: null })
+
+    await expect(
+      useAdminContentRepository().deleteContentItem(content.id)
+    ).resolves.toEqual({ error: null })
+
+    expect(query.delete).toHaveBeenCalledOnce()
+    expect(query.eq).toHaveBeenCalledWith('id', content.id)
   })
 })

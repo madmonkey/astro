@@ -130,4 +130,30 @@ test.describe('administrator content management', () => {
       page.getByText(updatedContentTitle, { exact: true })
     ).not.toBeVisible()
   })
+
+  test('deletes a content item after confirmation', async ({ page }) => {
+    const contentTitle = 'Finding Your Rhythm with the Moon'
+
+    await page.goto('/admin')
+    await page.getByLabel('Email address').fill(email)
+    await page.getByLabel('Password').fill(password)
+    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.getByRole('link', { name: 'Manage content' }).click()
+
+    const contentRow = page
+      .getByRole('listitem')
+      .filter({ has: page.getByRole('link', { name: contentTitle }) })
+
+    page.once('dialog', (dialog) => dialog.accept())
+    await contentRow.getByRole('button', { name: 'Delete' }).click()
+
+    await expect(contentRow).toHaveCount(0)
+
+    await page.goto('/admin')
+    await page.getByRole('button', { name: 'Sign out' }).click()
+    await page.goto('/topics/moon-phases/finding-your-rhythm-with-the-moon')
+    await expect(
+      page.getByText('This content item is unavailable.')
+    ).toBeVisible()
+  })
 })

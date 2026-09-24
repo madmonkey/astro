@@ -14,6 +14,12 @@ const topics = [
   }
 ]
 
+const nuxtUiStubs = {
+  UButton: {
+    template: '<button type="button"><slot /></button>'
+  }
+}
+
 describe('administrator content forms', () => {
   it('emits normalized topic values on a valid save', async () => {
     const wrapper = mount(TopicForm)
@@ -55,6 +61,7 @@ describe('administrator content forms', () => {
 
   it('retains invalid Markdown content values and presents field-level errors', async () => {
     const wrapper = mount(ContentForm, {
+      global: { stubs: nuxtUiStubs },
       props: { topics }
     })
 

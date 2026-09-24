@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import MarkdownEditor from '~/components/admin/MarkdownEditor.vue'
 import type { ContentItemFormInput, Topic } from '~/types/content'
 import { validateContentItemInput } from '~/utils/contentValidation'
 
@@ -119,18 +120,7 @@ function submit(event: SubmitEvent) {
     </div>
 
     <div class="form-field">
-      <label for="content-body">Markdown content</label>
-      <textarea
-        id="content-body"
-        v-model="values.body"
-        :aria-describedby="
-          visibleErrors.body ? 'content-body-error' : undefined
-        "
-        :aria-invalid="Boolean(visibleErrors.body)"
-        name="body"
-        required
-        rows="12"
-      />
+      <MarkdownEditor v-model="values.body" />
       <p v-if="visibleErrors.body" id="content-body-error" class="field-error">
         {{ visibleErrors.body }}
       </p>

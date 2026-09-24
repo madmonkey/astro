@@ -1,5 +1,5 @@
 <template>
-  <div class="site-shell">
+  <div class="site-shell admin-shell">
     <header class="site-header">
       <NuxtLink class="site-brand" to="/">Astro</NuxtLink>
       <p class="site-tagline">Content administration</p>

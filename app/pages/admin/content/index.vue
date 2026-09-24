@@ -10,8 +10,13 @@ definePageMeta({
   middleware: 'admin'
 })
 
-const { createContentItem, getContentItems, getTopics, setContentActive } =
-  useAdminContentRepository()
+const {
+  createContentItem,
+  deleteContentItem,
+  getContentItems,
+  getTopics,
+  setContentActive
+} = useAdminContentRepository()
 const contentItems = ref<ContentItem[]>([])
 const errorMessage = ref<string | null>(null)
 const isLoading = ref(true)
@@ -78,6 +83,24 @@ async function changeActiveState(content: ContentItem) {
   )
 }
 
+async function removeContent(content: ContentItem) {
+  if (!window.confirm(`Delete "${content.title}" permanently?`)) {
+    return
+  }
+
+  const result = await deleteContentItem(content.id)
+
+  if (result.error) {
+    errorMessage.value = result.error
+    return
+  }
+
+  contentItems.value = contentItems.value.filter(
+    (item) => item.id !== content.id
+  )
+  saveMessage.value = `Deleted ${content.title}.`
+}
+
 function topicName(topicId: string) {
   return (
     topics.value.find((topic) => topic.id === topicId)?.name ?? 'Unknown topic'
@@ -134,6 +157,15 @@ onMounted(loadContent)
           <button type="button" @click="changeActiveState(content)">
             {{ content.is_active ? 'Deactivate' : 'Activate' }}
           </button>
+          <UButton
+            color="error"
+            size="sm"
+            type="button"
+            variant="soft"
+            @click="removeContent(content)"
+          >
+            Delete
+          </UButton>
         </div>
       </li>
     </ul>

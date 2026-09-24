@@ -10,7 +10,8 @@ definePageMeta({
   middleware: 'admin'
 })
 
-const { createTopic, getTopics, setTopicActive } = useAdminContentRepository()
+const { createTopic, deleteTopic, getTopics, setTopicActive } =
+  useAdminContentRepository()
 const errorMessage = ref<string | null>(null)
 const isLoading = ref(true)
 const saveMessage = ref<string | null>(null)
@@ -66,6 +67,26 @@ async function changeActiveState(topic: Topic) {
   )
 }
 
+async function removeTopic(topic: Topic) {
+  const message =
+    `Delete "${topic.name}" permanently? ` +
+    'All content assigned to this topic will also be deleted.'
+
+  if (!window.confirm(message)) {
+    return
+  }
+
+  const result = await deleteTopic(topic.id)
+
+  if (result.error) {
+    errorMessage.value = result.error
+    return
+  }
+
+  topics.value = topics.value.filter((item) => item.id !== topic.id)
+  saveMessage.value = `Deleted ${topic.name} and its assigned content.`
+}
+
 onMounted(loadTopics)
 </script>
 
@@ -112,6 +133,15 @@ onMounted(loadTopics)
           <button type="button" @click="changeActiveState(topic)">
             {{ topic.is_active ? 'Deactivate' : 'Activate' }}
           </button>
+          <UButton
+            color="error"
+            size="sm"
+            type="button"
+            variant="soft"
+            @click="removeTopic(topic)"
+          >
+            Delete
+          </UButton>
         </div>
       </li>
     </ul>

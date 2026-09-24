@@ -12,7 +12,7 @@ definePageMeta({
 })
 
 const route = useRoute()
-const { getTopic, updateTopic } = useAdminContentRepository()
+const { deleteTopic, getTopic, updateTopic } = useAdminContentRepository()
 const errorMessage = ref<string | null>(null)
 const isLoading = ref(true)
 const saveMessage = ref<string | null>(null)
@@ -65,6 +65,26 @@ async function saveTopic(input: TopicFormInput) {
   saveMessage.value = `Saved ${result.data.name}.`
 }
 
+async function removeTopic() {
+  if (
+    !topic.value ||
+    !window.confirm(
+      `Delete "${topic.value.name}" permanently? All assigned content will also be deleted.`
+    )
+  ) {
+    return
+  }
+
+  const result = await deleteTopic(topic.value.id)
+
+  if (result.error) {
+    errorMessage.value = result.error
+    return
+  }
+
+  await navigateTo('/admin/topics')
+}
+
 onMounted(loadTopic)
 </script>
 
@@ -95,6 +115,9 @@ onMounted(loadTopic)
         :initial-value="initialValue"
         @save="saveTopic"
       />
+      <UButton color="error" type="button" variant="soft" @click="removeTopic">
+        Delete topic and its content
+      </UButton>
     </template>
   </section>
 </template>

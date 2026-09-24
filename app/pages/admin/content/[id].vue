@@ -13,7 +13,7 @@ definePageMeta({
 })
 
 const route = useRoute()
-const { getContentItem, getTopics, updateContentItem } =
+const { deleteContentItem, getContentItem, getTopics, updateContentItem } =
   useAdminContentRepository()
 const content = ref<ContentItem | null>(null)
 const errorMessage = ref<string | null>(null)
@@ -80,6 +80,24 @@ async function saveContent(input: ContentItemFormInput) {
   saveMessage.value = `Saved ${result.data.title}.`
 }
 
+async function removeContent() {
+  if (
+    !content.value ||
+    !window.confirm(`Delete "${content.value.title}" permanently?`)
+  ) {
+    return
+  }
+
+  const result = await deleteContentItem(content.value.id)
+
+  if (result.error) {
+    errorMessage.value = result.error
+    return
+  }
+
+  await navigateTo('/admin/content')
+}
+
 onMounted(loadContent)
 </script>
 
@@ -111,6 +129,14 @@ onMounted(loadContent)
         :topics="topics"
         @save="saveContent"
       />
+      <UButton
+        color="error"
+        type="button"
+        variant="soft"
+        @click="removeContent"
+      >
+        Delete content
+      </UButton>
       <section class="admin-panel" aria-labelledby="markdown-preview-heading">
         <h2 id="markdown-preview-heading">Markdown preview</h2>
         <!-- eslint-disable-next-line vue/no-v-html -- renderMarkdown removes raw HTML and sanitizes output. -->

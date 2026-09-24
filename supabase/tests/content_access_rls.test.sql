@@ -2,7 +2,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(13);
+select plan(16);
 
 insert into auth.users (id, email)
 values
@@ -110,6 +110,14 @@ select results_eq(
   'Authenticated non-administrators cannot update content'
 );
 
+select results_eq(
+  $$delete from public.content_items
+    where slug = 'test-published-content'
+    returning 1$$,
+  array[]::integer[],
+  'Authenticated non-administrators cannot delete content'
+);
+
 reset role;
 set local role authenticated;
 set local "request.jwt.claim.sub" = '11111111-1111-1111-1111-111111111111';
@@ -153,11 +161,24 @@ select lives_ok(
   'Administrators can update content'
 );
 
-select throws_ok(
+select lives_ok(
   $$delete from public.content_items where slug = 'test-published-content'$$,
-  '42501',
-  null,
-  'Administrators cannot delete content'
+  'Administrators can delete content'
+);
+
+select results_eq(
+  $$delete from public.topics
+    where id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+    returning 1$$,
+  array[1],
+  'Administrators can delete a topic'
+);
+
+select results_eq(
+  $$select count(*) from public.content_items
+    where id = 'cccccccc-cccc-cccc-cccc-ccccccccccc3'$$,
+  array[0::bigint],
+  'Deleting a topic also removes its content'
 );
 
 select * from finish();

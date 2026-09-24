@@ -18,6 +18,10 @@ export type AdminMutationResult<T, TInput> =
 export type AdminQueryResult<T> =
   { data: T; error: null } | { data: null; error: string }
 
+export interface AdminDeleteResult {
+  error: string | null
+}
+
 interface DatabaseError {
   code?: string
   message: string
@@ -170,6 +174,57 @@ export function useAdminContentRepository() {
     }
 
     return { data, error: null }
+  }
+
+  async function deleteTopic(id: string): Promise<AdminDeleteResult> {
+    const authorization = await authorize<Topic, TopicFormInput>()
+
+    if (authorization) {
+      return {
+        error:
+          authorization.error ?? 'Administrator access could not be verified.'
+      }
+    }
+
+    const { error } = await useSupabase().from('topics').delete().eq('id', id)
+
+    if (error) {
+      return {
+        error:
+          error.code === '42501'
+            ? 'Your administrator session is no longer authorized. Please sign in again.'
+            : 'This topic could not be deleted. Please try again.'
+      }
+    }
+
+    return { error: null }
+  }
+
+  async function deleteContentItem(id: string): Promise<AdminDeleteResult> {
+    const authorization = await authorize<ContentItem, ContentItemFormInput>()
+
+    if (authorization) {
+      return {
+        error:
+          authorization.error ?? 'Administrator access could not be verified.'
+      }
+    }
+
+    const { error } = await useSupabase()
+      .from('content_items')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      return {
+        error:
+          error.code === '42501'
+            ? 'Your administrator session is no longer authorized. Please sign in again.'
+            : 'This content item could not be deleted. Please try again.'
+      }
+    }
+
+    return { error: null }
   }
 
   async function createTopic(
@@ -345,6 +400,8 @@ export function useAdminContentRepository() {
   return {
     createContentItem,
     createTopic,
+    deleteContentItem,
+    deleteTopic,
     getContentItem,
     getContentItems,
     getTopic,
