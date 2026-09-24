@@ -138,8 +138,8 @@ activate it, and verify it appears publicly; deactivate it and verify it is remo
 
 ## Assumptions
 
-- The initial release has one administrator role; additional staff roles and granular permissions
-  are out of scope.
+- The initial release has one administrator role shared by the two configured administrator
+  accounts; additional staff roles and granular permissions are out of scope.
 - Public visitors can browse published content without creating accounts or signing in.
 - Astrology content consists of Markdown-formatted written articles or updates; media libraries,
   comments, subscriptions, personalized readings, and commerce are out of scope.

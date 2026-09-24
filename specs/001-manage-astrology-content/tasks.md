@@ -28,9 +28,9 @@ the shared foundation is complete.
 - [x] T001 Initialize the Nuxt 4.5.2 TypeScript project and npm scripts in `package.json`
 - [x] T002 [P] Configure Nuxt static output, `/astro/` base URL, and public runtime variables in `nuxt.config.ts`
 - [x] T003 [P] Configure TypeScript, ESLint, Prettier, Vitest, and Playwright in `tsconfig.json`, `eslint.config.mjs`, `.prettierrc`, `vitest.config.ts`, and `playwright.config.ts`
-- [ ] T004 [P] Add Supabase URL and publishable-key placeholders only, plus an environment template, in `.env.example` and `.gitignore`
-- [ ] T005 [P] Add the GitHub Pages build-and-deploy workflow with least-required Pages permissions in `.github/workflows/deploy-pages.yml`
-- [ ] T006 Create base Nuxt app assets and the shared public layout in `app/app.vue`, `app/layouts/default.vue`, and `app/assets/css/main.css`
+- [x] T004 [P] Add Supabase URL and publishable-key placeholders only, plus an environment template, in `.env.example` and `.gitignore`
+- [x] T005 [P] Add the GitHub Pages build-and-deploy workflow with least-required Pages permissions in `.github/workflows/deploy-pages.yml`
+- [x] T006 Create base Nuxt app assets and the shared public layout in `app/app.vue`, `app/layouts/default.vue`, and `app/assets/css/main.css`
 
 ---
 
@@ -48,7 +48,7 @@ reusable error handling. No user-story implementation starts until this phase is
 - [ ] T013 Implement topic/content input normalization, required-field validation, and URL-safe slug validation in `app/utils/contentValidation.ts`
 - [ ] T014 Create a shared data-access composable with explicit error results in `app/composables/useContentRepository.ts`
 - [ ] T015 [P] Implement Markdown-to-sanitized-HTML rendering with raw HTML disabled in `app/utils/renderMarkdown.ts`
-- [ ] T016 Configure the Supabase project session lifetime, inactivity timeout, redirect URLs, and initial administrator allow-list outside the repository; record the applied values in `supabase/README.md`
+- [ ] T016 Configure Supabase redirect URLs and the two-account administrator allow-list outside the repository; configure session lifetime and inactivity timeout when the plan supports them, otherwise record the Free-plan limitation in `supabase/README.md`
 - [ ] T017 Run the schema migration and database-policy tests documented in `supabase/README.md` before starting user-story work
 
 **Checkpoint**: Foundation ready. Database authorization—not UI visibility—now protects all

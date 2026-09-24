@@ -38,11 +38,11 @@ credential or secret may be included in browser code or repository; backend auth
 depend on hidden user-interface controls; public content is intentionally internet-visible; rendered
 Markdown MUST be sanitized before insertion into the page.
 
-**Scale/Scope**: One administrator role; tens of topics and hundreds of written content items for
-the initial release; no visitor accounts, exclusive-content access controls, comments, media
-library, subscriptions, commerce, payment processing, or personalized readings. Visitor accounts,
-exclusive content, and a purchasable customized-reading catalog are documented future features,
-not initial-release requirements.
+**Scale/Scope**: One administrator role shared by two configured administrator accounts; tens of
+topics and hundreds of written content items for the initial release; no visitor accounts,
+exclusive-content access controls, comments, media library, subscriptions, commerce, payment
+processing, or personalized readings. Visitor accounts, exclusive content, and a purchasable
+customized-reading catalog are documented future features, not initial-release requirements.
 
 ## Constitution Check
 
@@ -51,7 +51,7 @@ not initial-release requirements.
 | Requirements Traceability | Each design element maps to FR-001 through FR-010 and the specified acceptance scenarios. | Pass |
 | Testable Behavior | Unit, end-to-end, and database-policy tests cover public visibility, sign-in, validation, and denied writes. | Pass |
 | Small, Cohesive Changes | A single Nuxt application and one managed backend are used; no custom server is added. | Pass |
-| Explicit Failure Handling | Data-load, validation, authorization, and session-expiry failures receive actionable user messages. | Pass |
+| Explicit Failure Handling | Data-load, validation, authorization, sign-out, and available session-expiry failures receive actionable user messages. Free-plan session controls are documented as unavailable. | Pass |
 | Reviewable Quality Gates | Formatting, linting, type checks, targeted tests, build, and deployment smoke checks are required before completion. | Pass |
 | Quality Constraints | Publishable connection values are supplied at build time; privileged credentials are never exposed; Pages publication is reviewed for public-data suitability. | Pass |
 

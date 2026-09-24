@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - Node.js 20 LTS or later and npm.
-- A Supabase project configured with an administrator identity and the schema/policies in
+- A Supabase project configured with two administrator identities and the schema/policies in
   [data-model.md](data-model.md).
 - A GitHub repository whose Pages settings permit GitHub Actions deployments. GitHub Pages output
   is public even when the repository is private, subject to the account or organization plan.
@@ -36,7 +36,8 @@
    fields.
 5. Activate and deactivate both records; confirm public visibility follows the state rules in
    [application-access.md](contracts/application-access.md).
-6. Sign out and confirm that management access ends. Repeat after configured session expiry.
+6. Sign out and confirm that management access ends. If the Supabase plan supports configured
+   expiry, repeat after expiry; otherwise record the Free-plan session-control limitation.
 
 ## Validate Quality and Deployment
 
