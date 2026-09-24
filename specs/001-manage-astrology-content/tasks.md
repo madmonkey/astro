@@ -128,10 +128,10 @@ follows the data-boundary rules.
 **Purpose**: Complete quality gates, deployment verification, and operator documentation across all
 stories.
 
-- [ ] T043 [P] Add accessible labels, focus management, semantic landmarks, and responsive styles across `app/components/` and `app/assets/css/main.css`
-- [ ] T044 [P] Add deployment, Pages configuration, public-data warning, Markdown authoring, and administrator bootstrap documentation in `README.md`
+- [x] T043 [P] Add accessible labels, focus management, semantic landmarks, and responsive styles across `app/components/` and `app/assets/css/main.css`
+- [x] T044 [P] Add deployment, Pages configuration, public-data warning, Markdown authoring, and administrator bootstrap documentation in `README.md`
 - [ ] T045 [P] Add the expected static artifact and repository-path deployment assertions in `tests/integration/github-pages-build.spec.ts`
-- [ ] T046 Run formatting, linting, type checking, unit tests, component tests, end-to-end tests, and database-policy tests using `package.json` and `supabase/tests/content_access_rls.test.sql`
+- [x] T046 Run formatting, linting, type checking, unit tests, component tests, end-to-end tests, and database-policy tests using `package.json` and `supabase/tests/content_access_rls.test.sql`
 - [ ] T047 Build with the GitHub Pages preset, deploy through `.github/workflows/deploy-pages.yml`, and execute all scenarios in `specs/001-manage-astrology-content/quickstart.md`
 - [x] T048 [P] Add local-only visual seed topics and Markdown content, with a documented no-seed reset command, in `supabase/seed.sql` and `supabase/README.md`
 

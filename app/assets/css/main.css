@@ -24,6 +24,11 @@ a {
   color: inherit;
 }
 
+:focus-visible {
+  outline: 3px solid #8dd9e7;
+  outline-offset: 3px;
+}
+
 .site-shell {
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -343,6 +348,12 @@ a {
   color: #171329;
   background: #f9f7ff;
   font: inherit;
+}
+
+.admin-content-form input:focus-visible,
+.admin-content-form select:focus-visible,
+.admin-content-form textarea:focus-visible {
+  border-color: #5a8f98;
 }
 
 .admin-content-form textarea {

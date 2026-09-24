@@ -1,4 +1,15 @@
 import { defineConfig, devices } from '@playwright/test'
+import { loadEnv } from 'vite'
+
+const localEnvironment = loadEnv('development', process.cwd(), '')
+const supabasePublishableKey =
+  process.env.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+  localEnvironment.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+  'test-publishable-key'
+const supabaseUrl =
+  process.env.NUXT_PUBLIC_SUPABASE_URL ??
+  localEnvironment.NUXT_PUBLIC_SUPABASE_URL ??
+  'http://supabase.test'
 
 export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
@@ -19,11 +30,8 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     env: {
-      NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
-        process.env.NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
-        'test-publishable-key',
-      NUXT_PUBLIC_SUPABASE_URL:
-        process.env.NUXT_PUBLIC_SUPABASE_URL ?? 'http://supabase.test'
+      NUXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: supabasePublishableKey,
+      NUXT_PUBLIC_SUPABASE_URL: supabaseUrl
     },
     reuseExistingServer: !process.env.CI,
     url: 'http://localhost:3000/astro/'
