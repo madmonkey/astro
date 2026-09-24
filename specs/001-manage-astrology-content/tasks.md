@@ -46,10 +46,10 @@ reusable error handling. No user-story implementation starts until this phase is
 - [x] T011 [P] Create the browser Supabase client from public runtime configuration in `app/composables/useSupabase.ts`
 - [x] T012 [P] Create shared data-load, empty-state, and retryable-error components in `app/components/content/ContentState.vue` and `app/components/content/ContentError.vue`
 - [x] T013 Implement topic/content input normalization, required-field validation, and URL-safe slug validation in `app/utils/contentValidation.ts`
-- [ ] T014 Create a shared data-access composable with explicit error results in `app/composables/useContentRepository.ts`
-- [ ] T015 [P] Implement Markdown-to-sanitized-HTML rendering with raw HTML disabled in `app/utils/renderMarkdown.ts`
-- [ ] T016 Configure Supabase redirect URLs and the two-account administrator allow-list outside the repository; configure session lifetime and inactivity timeout when the plan supports them, otherwise record the Free-plan limitation in `supabase/README.md`
-- [ ] T017 Run the schema migration and database-policy tests documented in `supabase/README.md` before starting user-story work
+- [x] T014 Create a shared data-access composable with explicit error results in `app/composables/useContentRepository.ts`
+- [x] T015 [P] Implement Markdown-to-sanitized-HTML rendering with raw HTML disabled in `app/utils/renderMarkdown.ts`
+- [x] T016 Configure Supabase redirect URLs and the two-account administrator allow-list outside the repository; configure session lifetime and inactivity timeout when the plan supports them, otherwise record the Free-plan limitation in `supabase/README.md`
+- [x] T017 Run the schema migration and database-policy tests documented in `supabase/README.md` before starting user-story work
 
 **Checkpoint**: Foundation ready. Database authorization—not UI visibility—now protects all
 content and management mutations.

@@ -85,10 +85,9 @@ select throws_ok(
   'Authenticated non-administrators cannot create topics'
 );
 
-select throws_ok(
-  $$update public.content_items set title = 'Changed' where slug = 'published-content'$$,
-  '42501',
-  null,
+select results_eq(
+  $$update public.content_items set title = 'Changed' where slug = 'published-content' returning 1$$,
+  array[]::integer[],
   'Authenticated non-administrators cannot update content'
 );
 
