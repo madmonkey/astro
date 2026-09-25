@@ -1,22 +1,41 @@
-import { marked, Renderer } from 'marked'
+import { Marked, Renderer } from 'marked'
+import markedFootnote from 'marked-footnote'
 import sanitizeHtml from 'sanitize-html'
 
 const renderer = new Renderer()
 
 renderer.html = () => ''
 
-export function renderMarkdown(markdown: string): string {
-  const rendered = marked.parse(markdown, {
-    async: false,
-    renderer
+const markdown = new Marked({
+  async: false,
+  renderer
+}).use(
+  markedFootnote({
+    footnoteDivider: true,
+    refMarkers: true
   })
+)
+
+export function renderMarkdown(source: string): string {
+  const rendered = markdown.parse(source, { async: false })
 
   return sanitizeHtml(rendered, {
     allowedAttributes: {
-      a: ['href', 'title'],
+      a: [
+        'aria-describedby',
+        'aria-label',
+        'data-footnote-backref',
+        'data-footnote-ref',
+        'href',
+        'id',
+        'title'
+      ],
       code: ['class'],
+      h2: ['class', 'id'],
       img: ['alt', 'height', 'src', 'title', 'width'],
-      ol: ['start']
+      ol: ['start'],
+      section: ['class', 'data-footnotes'],
+      li: ['id']
     },
     allowedTags: [
       'a',
@@ -37,7 +56,9 @@ export function renderMarkdown(markdown: string): string {
       'ol',
       'p',
       'pre',
+      'section',
       'strong',
+      'sup',
       'table',
       'tbody',
       'td',

@@ -159,4 +159,29 @@ describe('public content states', () => {
     expect(wrapper.get('.markdown-content table').text()).toContain('New Moon')
     expect(wrapper.get('.markdown-content th').text()).toBe('Phase')
   })
+
+  it('renders accessible footnote references and footnotes', () => {
+    const wrapper = mount(ContentDetail, {
+      props: {
+        content: {
+          ...content,
+          body: [
+            'The Moon changes its illuminated appearance.[^lunar-cycle]',
+            '',
+            '[^lunar-cycle]: The lunar cycle lasts about 29.5 days.'
+          ].join('\n')
+        }
+      }
+    })
+
+    expect(wrapper.get('[data-footnote-ref]').attributes('href')).toBe(
+      '#footnote-lunar-cycle'
+    )
+    expect(wrapper.get('.footnotes').text()).toContain(
+      'The lunar cycle lasts about 29.5 days.'
+    )
+    expect(wrapper.get('[data-footnote-backref]').attributes('href')).toBe(
+      '#footnote-ref-lunar-cycle'
+    )
+  })
 })

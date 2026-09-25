@@ -14,7 +14,8 @@ manage topics and content.
 - Public queries can read only active topics and content belonging to active topics. The UI is not
   relied on to protect inactive records.
 - Article bodies are Markdown. Authored raw HTML is discarded and rendered output is sanitized.
-  Headings, lists, quotes, code blocks, and tables receive shared responsive article styling.
+  Headings, lists, quotes, code blocks, tables, and GFM footnotes receive shared responsive article
+  styling.
   Markdown images may use remote HTTP or HTTPS URLs; data URLs and other unsafe schemes are excluded.
 - The administrator workspace uses Nuxt UI and a Markdown source editor with formatting helpers and
   a sanitized live preview. Topic deletion permanently cascades to its assigned content.
