@@ -17,6 +17,9 @@ manage topics and content.
   Markdown images may use remote HTTP or HTTPS URLs; data URLs and other unsafe schemes are excluded.
 - The administrator workspace uses Nuxt UI and a Markdown source editor with formatting helpers and
   a sanitized live preview. Topic deletion permanently cascades to its assigned content.
+- After three failed credential submissions, the administrator sign-in form blocks further attempts
+  in that browser for 15 minutes. This is a client-side usability throttle; configure Supabase Auth
+  rate limits and CAPTCHA for server-enforced abuse protection.
 
 ## Local development
 

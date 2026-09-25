@@ -2,7 +2,7 @@ export type AdministratorSession =
   | { status: 'administrator'; userId: string }
   | { status: 'signed-out' }
   | { status: 'not-administrator' }
-  | { status: 'error'; message: string }
+  | { status: 'error'; message: string; failedCredentials?: true }
 
 const sessionVerificationError =
   'Your session could not be verified. Please sign in again.'
@@ -58,6 +58,7 @@ export function useAdministratorSession() {
 
     if (error || !data.session) {
       return {
+        failedCredentials: true,
         status: 'error',
         message:
           'We could not sign you in with those credentials. Check your email and password.'

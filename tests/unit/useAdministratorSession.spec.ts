@@ -98,6 +98,7 @@ describe('useAdministratorSession', () => {
     await expect(
       useAdministratorSession().signIn('admin@example.com', 'incorrect')
     ).resolves.toEqual({
+      failedCredentials: true,
       message:
         'We could not sign you in with those credentials. Check your email and password.',
       status: 'error'

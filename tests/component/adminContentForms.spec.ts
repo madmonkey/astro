@@ -1,5 +1,6 @@
-import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import AdminSignInForm from '~/components/admin/AdminSignInForm.vue'
 import ContentForm from '~/components/admin/ContentForm.vue'
 import TopicForm from '~/components/admin/TopicForm.vue'
 
@@ -20,7 +21,19 @@ const nuxtUiStubs = {
   }
 }
 
+const signIn = vi.fn()
+
 describe('administrator content forms', () => {
+  beforeEach(() => {
+    window.localStorage.clear()
+    signIn.mockReset()
+    vi.stubGlobal('useAdministratorSession', () => ({ signIn }))
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it('emits normalized topic values on a valid save', async () => {
     const wrapper = mount(TopicForm)
 
@@ -97,5 +110,34 @@ describe('administrator content forms', () => {
       'Choose a URL slug that is not already in use.'
     )
     expect(wrapper.get('#topic-slug').attributes('aria-invalid')).toBe('true')
+  })
+
+  it('blocks sign-in for 15 minutes after three failed credential submissions', async () => {
+    signIn.mockResolvedValue({
+      failedCredentials: true,
+      message:
+        'We could not sign you in with those credentials. Check your email and password.',
+      status: 'error'
+    })
+
+    const wrapper = mount(AdminSignInForm)
+    await wrapper.get('#email').setValue('admin@example.com')
+    await wrapper.get('#password').setValue('incorrect-password')
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await wrapper.get('form').trigger('submit')
+      await flushPromises()
+    }
+
+    expect(signIn).toHaveBeenCalledTimes(3)
+    expect(wrapper.get('[role="alert"]').text()).toContain(
+      'Too many failed sign-in attempts. Try again in 15 minutes.'
+    )
+    expect(wrapper.get('button').attributes('disabled')).toBeDefined()
+
+    await wrapper.get('form').trigger('submit')
+
+    expect(signIn).toHaveBeenCalledTimes(3)
+    wrapper.unmount()
   })
 })
