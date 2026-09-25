@@ -88,12 +88,12 @@ expired-session, and non-administrator users are denied.
 non-administrator, and administrator credentials, then sign out and confirm management access ends.
 
 - [x] T027 [P] [US2] Write unit tests for administrator-session and allow-list state resolution in `tests/unit/useAdministratorSession.spec.ts`
-- [ ] T028 [P] [US2] Write end-to-end coverage for signed-out denial, invalid sign-in, non-administrator denial, administrator access, session expiry, and sign-out in `tests/e2e/administrator-auth.spec.ts`
+- [x] T028 [P] [US2] Write end-to-end coverage for signed-out denial, invalid sign-in, non-administrator denial, administrator access, session expiry, and sign-out in `tests/e2e/administrator-auth.spec.ts`
 - [x] T029 [P] [US2] Implement administrator identity, allow-list lookup, sign-in, and sign-out behavior with explicit errors in `app/composables/useAdministratorSession.ts`
 - [x] T030 [P] [US2] Implement the sign-in form with actionable credential and session errors in `app/components/admin/AdminSignInForm.vue`
 - [x] T031 [US2] Implement route middleware that redirects signed-out, expired, and non-administrator users without exposing management data in `app/middleware/admin.ts`
 - [x] T032 [US2] Implement the administrator sign-in page and protected administration shell in `app/pages/admin/index.vue` and `app/layouts/admin.vue`
-- [ ] T033 [US2] Run the US2 unit and end-to-end tests in `tests/unit/useAdministratorSession.spec.ts` and `tests/e2e/administrator-auth.spec.ts`
+- [x] T033 [US2] Run the US2 unit and end-to-end tests in `tests/unit/useAdministratorSession.spec.ts` and `tests/e2e/administrator-auth.spec.ts`
 
 **Checkpoint**: The administrator boundary works independently, and direct protected-route access
 fails safely for every unauthorized state.

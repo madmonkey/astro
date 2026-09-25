@@ -86,6 +86,14 @@ npm run test:e2e -- tests/e2e/admin-content-management.spec.ts
 The administrator browser test is skipped when those variables are absent and creates local-only
 records; reset the local database afterward if desired.
 
+To exercise the allow-list denial scenario in `tests/e2e/administrator-auth.spec.ts`, also provide
+an Auth account that is not present in `public.administrator_profiles`:
+
+```powershell
+$env:E2E_NON_ADMIN_EMAIL = '<local-non-administrator-email>'
+$env:E2E_NON_ADMIN_PASSWORD = '<local-non-administrator-password>'
+```
+
 ## Hosted Supabase bootstrap
 
 1. Apply `supabase/migrations/0001_initial_schema.sql` and

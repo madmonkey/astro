@@ -5,6 +5,8 @@ const password = process.env.E2E_ADMIN_PASSWORD ?? ''
 const credentialsAvailable = Boolean(email && password)
 
 test.describe('administrator content management', () => {
+  test.describe.configure({ mode: 'serial' })
+
   test.skip(
     !credentialsAvailable,
     'Set E2E_ADMIN_EMAIL and E2E_ADMIN_PASSWORD to run administrator browser tests.'
@@ -70,7 +72,9 @@ test.describe('administrator content management', () => {
       .filter({ has: page.getByRole('link', { name: updatedTopicName }) })
     page.once('dialog', (dialog) => dialog.accept())
     await updatedTopicRow.getByRole('button', { name: 'Activate' }).click()
-    await expect(updatedTopicRow.getByText('Active')).toBeVisible()
+    await expect(
+      updatedTopicRow.getByText('Active', { exact: true })
+    ).toBeVisible()
 
     await page.getByRole('link', { name: 'Manage content' }).click()
     await page.getByLabel('Title').fill(contentTitle)
@@ -104,7 +108,9 @@ test.describe('administrator content management', () => {
       .filter({ has: page.getByRole('link', { name: updatedContentTitle }) })
     page.once('dialog', (dialog) => dialog.accept())
     await updatedContentRow.getByRole('button', { name: 'Activate' }).click()
-    await expect(updatedContentRow.getByText('Active')).toBeVisible()
+    await expect(
+      updatedContentRow.getByText('Active', { exact: true })
+    ).toBeVisible()
 
     await signOut()
     await page.goto(`/topics/${updatedTopicSlug}/${updatedContentSlug}`)
@@ -119,7 +125,9 @@ test.describe('administrator content management', () => {
       .filter({ has: page.getByRole('link', { name: updatedContentTitle }) })
     page.once('dialog', (dialog) => dialog.accept())
     await activeContentRow.getByRole('button', { name: 'Deactivate' }).click()
-    await expect(activeContentRow.getByText('Inactive')).toBeVisible()
+    await expect(
+      activeContentRow.getByText('Inactive', { exact: true })
+    ).toBeVisible()
 
     await signOut()
     await page.goto(`/topics/${updatedTopicSlug}/${updatedContentSlug}`)

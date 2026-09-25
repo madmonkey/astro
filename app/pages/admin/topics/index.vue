@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import AdministratorGuard from '~/components/admin/AdministratorGuard.vue'
 import AdminTopicForm from '~/components/admin/TopicForm.vue'
 import ContentError from '~/components/content/ContentError.vue'
 import ContentState from '~/components/content/ContentState.vue'
 import type { Topic, TopicFormInput } from '~/types/content'
 
 definePageMeta({
-  layout: 'admin',
-  middleware: 'admin'
+  layout: 'admin'
 })
 
 const { createTopic, deleteTopic, getTopics, setTopicActive } =
@@ -86,64 +86,64 @@ async function removeTopic(topic: Topic) {
   topics.value = topics.value.filter((item) => item.id !== topic.id)
   saveMessage.value = `Deleted ${topic.name} and its assigned content.`
 }
-
-onMounted(loadTopics)
 </script>
 
 <template>
-  <section aria-labelledby="topics-heading">
-    <p class="eyebrow">Administrator</p>
-    <h1 id="topics-heading" class="page-heading">Topics</h1>
-    <p class="admin-navigation">
-      <NuxtLink to="/admin">Administration home</NuxtLink>
-      <NuxtLink to="/admin/content">Manage content</NuxtLink>
-    </p>
+  <AdministratorGuard :key="$route.fullPath" @authorized="loadTopics">
+    <section aria-labelledby="topics-heading">
+      <p class="eyebrow">Administrator</p>
+      <h1 id="topics-heading" class="page-heading">Topics</h1>
+      <p class="admin-navigation">
+        <NuxtLink to="/admin">Administration home</NuxtLink>
+        <NuxtLink to="/admin/content">Manage content</NuxtLink>
+      </p>
 
-    <p v-if="saveMessage" class="form-success" role="status">
-      {{ saveMessage }}
-    </p>
-    <ContentError
-      v-if="errorMessage"
-      :message="errorMessage"
-      @retry="loadTopics"
-    />
+      <p v-if="saveMessage" class="form-success" role="status">
+        {{ saveMessage }}
+      </p>
+      <ContentError
+        v-if="errorMessage"
+        :message="errorMessage"
+        @retry="loadTopics"
+      />
 
-    <section class="admin-panel" aria-labelledby="new-topic-heading">
-      <h2 id="new-topic-heading">Create topic</h2>
-      <AdminTopicForm :errors="saveFieldErrors" @save="saveTopic" />
+      <section class="admin-panel" aria-labelledby="new-topic-heading">
+        <h2 id="new-topic-heading">Create topic</h2>
+        <AdminTopicForm :errors="saveFieldErrors" @save="saveTopic" />
+      </section>
+
+      <ContentState
+        v-if="isLoading"
+        description="Loading all topics, including inactive drafts."
+        title="Loading topics"
+      />
+      <ul v-else class="admin-record-list">
+        <li v-for="topic in topics" :key="topic.id">
+          <div>
+            <NuxtLink :to="`/admin/topics/${topic.id}`">{{
+              topic.name
+            }}</NuxtLink>
+            <p>{{ topic.slug }}</p>
+          </div>
+          <div class="admin-record-actions">
+            <span :class="{ 'status-inactive': !topic.is_active }">
+              {{ topic.is_active ? 'Active' : 'Inactive' }}
+            </span>
+            <button type="button" @click="changeActiveState(topic)">
+              {{ topic.is_active ? 'Deactivate' : 'Activate' }}
+            </button>
+            <UButton
+              color="error"
+              size="sm"
+              type="button"
+              variant="soft"
+              @click="removeTopic(topic)"
+            >
+              Delete
+            </UButton>
+          </div>
+        </li>
+      </ul>
     </section>
-
-    <ContentState
-      v-if="isLoading"
-      description="Loading all topics, including inactive drafts."
-      title="Loading topics"
-    />
-    <ul v-else class="admin-record-list">
-      <li v-for="topic in topics" :key="topic.id">
-        <div>
-          <NuxtLink :to="`/admin/topics/${topic.id}`">{{
-            topic.name
-          }}</NuxtLink>
-          <p>{{ topic.slug }}</p>
-        </div>
-        <div class="admin-record-actions">
-          <span :class="{ 'status-inactive': !topic.is_active }">
-            {{ topic.is_active ? 'Active' : 'Inactive' }}
-          </span>
-          <button type="button" @click="changeActiveState(topic)">
-            {{ topic.is_active ? 'Deactivate' : 'Activate' }}
-          </button>
-          <UButton
-            color="error"
-            size="sm"
-            type="button"
-            variant="soft"
-            @click="removeTopic(topic)"
-          >
-            Delete
-          </UButton>
-        </div>
-      </li>
-    </ul>
-  </section>
+  </AdministratorGuard>
 </template>

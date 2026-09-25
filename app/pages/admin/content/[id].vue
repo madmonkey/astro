@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import AdministratorGuard from '~/components/admin/AdministratorGuard.vue'
 import AdminContentForm from '~/components/admin/ContentForm.vue'
 import ContentError from '~/components/content/ContentError.vue'
 import ContentState from '~/components/content/ContentState.vue'
@@ -8,8 +9,7 @@ import type { ContentItem, ContentItemFormInput, Topic } from '~/types/content'
 import { renderMarkdown } from '~/utils/renderMarkdown'
 
 definePageMeta({
-  layout: 'admin',
-  middleware: 'admin'
+  layout: 'admin'
 })
 
 const route = useRoute()
@@ -97,51 +97,51 @@ async function removeContent() {
 
   await navigateTo('/admin/content')
 }
-
-onMounted(loadContent)
 </script>
 
 <template>
-  <section aria-labelledby="content-edit-heading">
-    <p class="eyebrow">Administrator</p>
-    <h1 id="content-edit-heading" class="page-heading">Edit content</h1>
-    <p class="admin-navigation">
-      <NuxtLink to="/admin/content">Back to content</NuxtLink>
-    </p>
-
-    <ContentState
-      v-if="isLoading"
-      description="Loading this content item."
-      title="Loading content"
-    />
-    <ContentError
-      v-else-if="errorMessage"
-      :message="errorMessage"
-      @retry="loadContent"
-    />
-    <template v-else-if="content && initialValue">
-      <p v-if="saveMessage" class="form-success" role="status">
-        {{ saveMessage }}
+  <AdministratorGuard :key="$route.fullPath" @authorized="loadContent">
+    <section aria-labelledby="content-edit-heading">
+      <p class="eyebrow">Administrator</p>
+      <h1 id="content-edit-heading" class="page-heading">Edit content</h1>
+      <p class="admin-navigation">
+        <NuxtLink to="/admin/content">Back to content</NuxtLink>
       </p>
-      <AdminContentForm
-        :errors="saveFieldErrors"
-        :initial-value="initialValue"
-        :topics="topics"
-        @save="saveContent"
+
+      <ContentState
+        v-if="isLoading"
+        description="Loading this content item."
+        title="Loading content"
       />
-      <UButton
-        color="error"
-        type="button"
-        variant="soft"
-        @click="removeContent"
-      >
-        Delete content
-      </UButton>
-      <section class="admin-panel" aria-labelledby="markdown-preview-heading">
-        <h2 id="markdown-preview-heading">Markdown preview</h2>
-        <!-- eslint-disable-next-line vue/no-v-html -- renderMarkdown removes raw HTML and sanitizes output. -->
-        <div class="markdown-content" v-html="preview" />
-      </section>
-    </template>
-  </section>
+      <ContentError
+        v-else-if="errorMessage"
+        :message="errorMessage"
+        @retry="loadContent"
+      />
+      <template v-else-if="content && initialValue">
+        <p v-if="saveMessage" class="form-success" role="status">
+          {{ saveMessage }}
+        </p>
+        <AdminContentForm
+          :errors="saveFieldErrors"
+          :initial-value="initialValue"
+          :topics="topics"
+          @save="saveContent"
+        />
+        <UButton
+          color="error"
+          type="button"
+          variant="soft"
+          @click="removeContent"
+        >
+          Delete content
+        </UButton>
+        <section class="admin-panel" aria-labelledby="markdown-preview-heading">
+          <h2 id="markdown-preview-heading">Markdown preview</h2>
+          <!-- eslint-disable-next-line vue/no-v-html -- renderMarkdown removes raw HTML and sanitizes output. -->
+          <div class="markdown-content" v-html="preview" />
+        </section>
+      </template>
+    </section>
+  </AdministratorGuard>
 </template>

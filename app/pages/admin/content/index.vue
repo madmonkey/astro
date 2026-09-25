@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import AdministratorGuard from '~/components/admin/AdministratorGuard.vue'
 import AdminContentForm from '~/components/admin/ContentForm.vue'
 import ContentError from '~/components/content/ContentError.vue'
 import ContentState from '~/components/content/ContentState.vue'
 import type { ContentItem, ContentItemFormInput, Topic } from '~/types/content'
 
 definePageMeta({
-  layout: 'admin',
-  middleware: 'admin'
+  layout: 'admin'
 })
 
 const {
@@ -106,68 +106,68 @@ function topicName(topicId: string) {
     topics.value.find((topic) => topic.id === topicId)?.name ?? 'Unknown topic'
   )
 }
-
-onMounted(loadContent)
 </script>
 
 <template>
-  <section aria-labelledby="content-heading">
-    <p class="eyebrow">Administrator</p>
-    <h1 id="content-heading" class="page-heading">Content</h1>
-    <p class="admin-navigation">
-      <NuxtLink to="/admin">Administration home</NuxtLink>
-      <NuxtLink to="/admin/topics">Manage topics</NuxtLink>
-    </p>
+  <AdministratorGuard :key="$route.fullPath" @authorized="loadContent">
+    <section aria-labelledby="content-heading">
+      <p class="eyebrow">Administrator</p>
+      <h1 id="content-heading" class="page-heading">Content</h1>
+      <p class="admin-navigation">
+        <NuxtLink to="/admin">Administration home</NuxtLink>
+        <NuxtLink to="/admin/topics">Manage topics</NuxtLink>
+      </p>
 
-    <p v-if="saveMessage" class="form-success" role="status">
-      {{ saveMessage }}
-    </p>
-    <ContentError
-      v-if="errorMessage"
-      :message="errorMessage"
-      @retry="loadContent"
-    />
-
-    <section class="admin-panel" aria-labelledby="new-content-heading">
-      <h2 id="new-content-heading">Create content</h2>
-      <AdminContentForm
-        :errors="saveFieldErrors"
-        :topics="topics"
-        @save="saveContent"
+      <p v-if="saveMessage" class="form-success" role="status">
+        {{ saveMessage }}
+      </p>
+      <ContentError
+        v-if="errorMessage"
+        :message="errorMessage"
+        @retry="loadContent"
       />
-    </section>
 
-    <ContentState
-      v-if="isLoading"
-      description="Loading all content, including inactive drafts."
-      title="Loading content"
-    />
-    <ul v-else class="admin-record-list">
-      <li v-for="content in contentItems" :key="content.id">
-        <div>
-          <NuxtLink :to="`/admin/content/${content.id}`">
-            {{ content.title }}
-          </NuxtLink>
-          <p>{{ topicName(content.topic_id) }} · {{ content.slug }}</p>
-        </div>
-        <div class="admin-record-actions">
-          <span :class="{ 'status-inactive': !content.is_active }">
-            {{ content.is_active ? 'Active' : 'Inactive' }}
-          </span>
-          <button type="button" @click="changeActiveState(content)">
-            {{ content.is_active ? 'Deactivate' : 'Activate' }}
-          </button>
-          <UButton
-            color="error"
-            size="sm"
-            type="button"
-            variant="soft"
-            @click="removeContent(content)"
-          >
-            Delete
-          </UButton>
-        </div>
-      </li>
-    </ul>
-  </section>
+      <section class="admin-panel" aria-labelledby="new-content-heading">
+        <h2 id="new-content-heading">Create content</h2>
+        <AdminContentForm
+          :errors="saveFieldErrors"
+          :topics="topics"
+          @save="saveContent"
+        />
+      </section>
+
+      <ContentState
+        v-if="isLoading"
+        description="Loading all content, including inactive drafts."
+        title="Loading content"
+      />
+      <ul v-else class="admin-record-list">
+        <li v-for="content in contentItems" :key="content.id">
+          <div>
+            <NuxtLink :to="`/admin/content/${content.id}`">
+              {{ content.title }}
+            </NuxtLink>
+            <p>{{ topicName(content.topic_id) }} · {{ content.slug }}</p>
+          </div>
+          <div class="admin-record-actions">
+            <span :class="{ 'status-inactive': !content.is_active }">
+              {{ content.is_active ? 'Active' : 'Inactive' }}
+            </span>
+            <button type="button" @click="changeActiveState(content)">
+              {{ content.is_active ? 'Deactivate' : 'Activate' }}
+            </button>
+            <UButton
+              color="error"
+              size="sm"
+              type="button"
+              variant="soft"
+              @click="removeContent(content)"
+            >
+              Delete
+            </UButton>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </AdministratorGuard>
 </template>

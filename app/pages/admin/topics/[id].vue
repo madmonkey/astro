@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import AdministratorGuard from '~/components/admin/AdministratorGuard.vue'
 import AdminTopicForm from '~/components/admin/TopicForm.vue'
 import ContentError from '~/components/content/ContentError.vue'
 import ContentState from '~/components/content/ContentState.vue'
 import type { Topic, TopicFormInput } from '~/types/content'
 
 definePageMeta({
-  layout: 'admin',
-  middleware: 'admin'
+  layout: 'admin'
 })
 
 const route = useRoute()
@@ -84,40 +84,45 @@ async function removeTopic() {
 
   await navigateTo('/admin/topics')
 }
-
-onMounted(loadTopic)
 </script>
 
 <template>
-  <section aria-labelledby="topic-edit-heading">
-    <p class="eyebrow">Administrator</p>
-    <h1 id="topic-edit-heading" class="page-heading">Edit topic</h1>
-    <p class="admin-navigation">
-      <NuxtLink to="/admin/topics">Back to topics</NuxtLink>
-    </p>
-
-    <ContentState
-      v-if="isLoading"
-      description="Loading this topic."
-      title="Loading topic"
-    />
-    <ContentError
-      v-else-if="errorMessage"
-      :message="errorMessage"
-      @retry="loadTopic"
-    />
-    <template v-else-if="topic && initialValue">
-      <p v-if="saveMessage" class="form-success" role="status">
-        {{ saveMessage }}
+  <AdministratorGuard :key="$route.fullPath" @authorized="loadTopic">
+    <section aria-labelledby="topic-edit-heading">
+      <p class="eyebrow">Administrator</p>
+      <h1 id="topic-edit-heading" class="page-heading">Edit topic</h1>
+      <p class="admin-navigation">
+        <NuxtLink to="/admin/topics">Back to topics</NuxtLink>
       </p>
-      <AdminTopicForm
-        :errors="saveFieldErrors"
-        :initial-value="initialValue"
-        @save="saveTopic"
+
+      <ContentState
+        v-if="isLoading"
+        description="Loading this topic."
+        title="Loading topic"
       />
-      <UButton color="error" type="button" variant="soft" @click="removeTopic">
-        Delete topic and its content
-      </UButton>
-    </template>
-  </section>
+      <ContentError
+        v-else-if="errorMessage"
+        :message="errorMessage"
+        @retry="loadTopic"
+      />
+      <template v-else-if="topic && initialValue">
+        <p v-if="saveMessage" class="form-success" role="status">
+          {{ saveMessage }}
+        </p>
+        <AdminTopicForm
+          :errors="saveFieldErrors"
+          :initial-value="initialValue"
+          @save="saveTopic"
+        />
+        <UButton
+          color="error"
+          type="button"
+          variant="soft"
+          @click="removeTopic"
+        >
+          Delete topic and its content
+        </UButton>
+      </template>
+    </section>
+  </AdministratorGuard>
 </template>
