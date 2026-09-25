@@ -59,21 +59,26 @@ a {
 
 .site-shell {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  min-width: 0;
 }
 
 .site-header,
 .site-main,
 .site-footer {
-  width: min(100% - 2rem, 70rem);
+  width: calc(100% - 2rem);
+  max-width: 70rem;
   margin: 0 auto;
+  min-width: 0;
 }
 
 .admin-shell .site-header,
 .admin-shell .site-main,
 .admin-shell .site-footer {
-  width: min(100% - 3rem, 96rem);
+  width: calc(100% - 3rem);
+  max-width: 96rem;
 }
 
 .site-header {

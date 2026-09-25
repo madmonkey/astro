@@ -4,7 +4,15 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
   app: {
-    baseURL: process.env.NUXT_APP_BASE_URL ?? '/astro/'
+    baseURL: process.env.NUXT_APP_BASE_URL ?? '/astro/',
+    head: {
+      meta: [
+        {
+          content: 'width=device-width, initial-scale=1',
+          name: 'viewport'
+        }
+      ]
+    }
   },
   modules: ['@nuxt/eslint', '@nuxt/ui'],
   fonts: false,

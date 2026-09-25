@@ -51,4 +51,33 @@ test.describe('public content browsing', () => {
 
     await expect(page.getByText('No published content yet')).toBeVisible()
   })
+
+  test('keeps rendered Markdown within a Galaxy S26 viewport', async ({
+    page
+  }) => {
+    await page.setViewportSize({ height: 780, width: 360 })
+
+    await page.goto('/topics/zodiac-signs/a-gentle-introduction-to-the-zodiac')
+    await expect(
+      page.getByRole('heading', {
+        name: 'A Gentle Introduction to the Zodiac'
+      })
+    ).toBeVisible()
+
+    await page.locator('.markdown-content').evaluate((element) => {
+      element.innerHTML = `
+        <p>https://example.com/${'long-path-segment-'.repeat(30)}</p>
+        <pre><code>${'const lunarCycle = '.repeat(20)}</code></pre>
+        <table><tbody><tr><td>${'Wide table cell '.repeat(20)}</td></tr></tbody></table>
+      `
+    })
+
+    await expect
+      .poll(() =>
+        page
+          .locator('html')
+          .evaluate((element) => element.scrollWidth === element.clientWidth)
+      )
+      .toBe(true)
+  })
 })
