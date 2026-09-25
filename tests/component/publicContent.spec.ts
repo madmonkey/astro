@@ -141,4 +141,22 @@ describe('public content states', () => {
     expect(wrapper.html()).not.toContain('javascript:')
     expect(wrapper.html()).not.toContain('window.alert')
   })
+
+  it('renders standard Markdown table output', () => {
+    const wrapper = mount(ContentDetail, {
+      props: {
+        content: {
+          ...content,
+          body: [
+            '| Phase | Focus |',
+            '| --- | --- |',
+            '| New Moon | Intentions |'
+          ].join('\n')
+        }
+      }
+    })
+
+    expect(wrapper.get('.markdown-content table').text()).toContain('New Moon')
+    expect(wrapper.get('.markdown-content th').text()).toBe('Phase')
+  })
 })

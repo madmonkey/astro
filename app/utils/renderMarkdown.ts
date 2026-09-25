@@ -38,6 +38,12 @@ export function renderMarkdown(markdown: string): string {
       'p',
       'pre',
       'strong',
+      'table',
+      'tbody',
+      'td',
+      'th',
+      'thead',
+      'tr',
       'ul'
     ],
     allowedSchemes: ['http', 'https', 'mailto'],
